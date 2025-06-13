@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- 🌐 Basic SEO -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Toolz Hub</title>
+  <meta name="title" content="AI Toolz Hub – Curated Free AI Tools">
+  <meta name="description" content="A mobile-friendly hub of 50+ free AI tools. Installable as a PWA. Works offline. Built for creators.">
+  <meta name="keywords" content="AI tools, free AI, productivity, GPT tools, writing tools, AI image, no-code">
+  <meta name="author" content="Kiyoshi">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://kiyoshi0.github.io/ai-toolz-hub/">
+
+  <!-- 📸 OpenGraph (FB, Instagram, Messenger, LinkedIn) -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://kiyoshi0.github.io/ai-toolz-hub/">
+  <meta property="og:title" content="AI Toolz Hub – Curated Free AI Tools">
+  <meta property="og:description" content="Discover 50+ handpicked free AI tools. Offline-ready. Mobile-first.">
+  <meta property="og:image" content="https://kiyoshi0.github.io/ai-toolz-hub/icons/icon-512.png">
+
+  <!-- 🐦 Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://kiyoshi0.github.io/ai-toolz-hub/">
+  <meta name="twitter:title" content="AI Toolz Hub – Curated Free AI Tools">
+  <meta name="twitter:description" content="Works offline. 50+ free AI tools in every category. Install on mobile or desktop.">
+  <meta name="twitter:image" content="https://kiyoshi0.github.io/ai-toolz-hub/icons/icon-512.png">
+
+  <!-- 📱 Apple PWA Banner -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="AI Toolz Hub">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
+  <!-- Android Theme -->
+  <meta name="theme-color" content="#3b82f6">
+  <link rel="manifest" href="manifest.json">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#3b82f6">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="icon" href="icon-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <style>
+    :root {
+      --bg-light: #f0f4ff;
+      --fg-light: #111;
+      --card-bg-light: #fff;
+      --bg-dark: #111827;
+      --fg-dark: #f3f4f6;
+      --card-bg-dark: #1f2937;
+      --primary: #3b82f6;
+      --secondary: #6366f1;
+      --header-bg: linear-gradient(135deg, var(--secondary), var(--primary));
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      transition: background-color 0.5s ease, color 0.5s ease;
+    }
+    body.light { background: var(--bg-light); color: var(--fg-light); }
+    body.light .card { background: var(--card-bg-light); }
+    body.dark { background: var(--bg-dark); color: var(--fg-dark); }
+    body.dark .card { background: var(--card-bg-dark); }
+    header {
+      background: var(--header-bg);
+      color: white;
+      padding: 2rem 1rem 4rem;
+      text-align: center;
+      position: relative;
+      border-bottom-left-radius: 2rem;
+      border-bottom-right-radius: 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    header h1 { margin: 0; font-size: 2.7rem; font-weight: 800; }
+    header p { margin: 0.5rem 0 0; font-size: 1.1rem; }
+    .theme-toggle {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .theme-toggle i {
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    .theme-toggle i.sun-animate {
+      transform: rotate(360deg);
+      color: gold;
+    }
+    .theme-toggle i.moon-animate {
+      transform: rotate(-360deg);
+      color: white;
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: inherit;
+      transition: background-color 0.5s ease;
+    }
+    .controls select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-image: url('data:image/svg+xml;utf8,<svg fill="%23666" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right 0.7rem center;
+      background-size: 1rem;
+      padding-right: 2.5rem;
+    }
+    .controls button, .controls select, .controls input[type="text"] {
+      border: 1px solid #ccc;
+      border-radius: 0.75rem;
+      padding: 0.55rem 1rem;
+      font-size: 1rem;
+      background: #fff;
+      color: #111;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      transition: all 0.2s;
+    }
+    .controls button:hover, .controls select:hover, .controls input[type="text"]:hover {
+      border-color: var(--primary);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+      padding: 1rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+    @media (max-width: 600px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+    .card {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: background-color 0.5s ease, transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.07);
+      position: relative;
+    }
+    .card.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .card.animate { animation: pulse 0.4s ease; }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.07); }
+      100% { transform: scale(1); }
+    }
+    .card h2 { margin-top: 0; font-size: 1.3rem; font-weight: 600; }
+    .card p { font-size: 0.95rem; margin: 0.5rem 0 1rem; }
+    .card a {
+      display: inline-block;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .fav-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      color: var(--primary);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .fav-btn.favorited { color: gold; animation: pulse 0.3s ease; }
+    .fav-btn:hover { transform: scale(1.2); }
+    footer {
+      text-align: center;
+      padding: 2rem 1rem 4rem;
+      font-size: 0.9rem;
+      color: #777;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(100%);
+      background: #333;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 1rem;
+      font-size: 0.9rem;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      transition: transform 0.4s ease, opacity 0.4s ease;
+      opacity: 0;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+
+<!-- Plausible Analytics -->
+<script defer data-domain="kiyoshi0.github.io/ai-toolz-hub" src="https://plausible.io/js/script.file-downloads.hash.outbound-links.pageview-props.revenue.tagged-events.js"></script>
+<script>
+  window.plausible = window.plausible || function () {
+    (window.plausible.q = window.plausible.q || []).push(arguments)
+  }
+  </script>
+  <!-- Plausible Analytics -->
+<script defer data-domain="kiyoshi0.github.io/ai-toolz-hub" src="https://plausible.io/js/script.file-downloads.hash.outbound-links.pageview-props.revenue.tagged-events.js"></script>
+<script>
+  window.plausible = window.plausible || function () {
+    (window.plausible.q = window.plausible.q || []).push(arguments)
+  }
+</script>
+</head>
+
+<body>
+  <header>
+    <div class="theme-toggle" onclick="toggleTheme()">
+      <i id="themeIcon" class="fas"></i>
+    </div>
+    <h1 class="animate__animated animate__fadeInDown">AI Toolz Hub</h1>
+    <p class="animate__animated animate__fadeInUp">Discover the best free AI tools in one place.</p>
+  </header>
+
+  <div class="controls">
+    <input type="text" id="search" placeholder="Search tools...">
+    <select id="category"></select>
+    <button id="toggleFavs">⭐ Favorites Only</button>
+  </div>
+
+  <div class="grid" id="toolGrid"></div>
+
+  <footer>© 2025 AI Toolz Hub – Built by JV</footer>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    const $ = {
+      grid: document.getElementById("toolGrid"),
+      search: document.getElementById("search"),
+      category: document.getElementById("category"),
+      toggleFavs: document.getElementById("toggleFavs"),
+      themeIcon: document.getElementById("themeIcon")
+    };
+
+    const tools = [
+  { name: "ChatGPT", desc: "Chatbot by OpenAI.", link: "https://chat.openai.com", category: "Chat" },
+  { name: "Claude AI", desc: "Anthropic's AI assistant.", link: "https://claude.ai", category: "Chat" },
+  { name: "Poe", desc: "Chat with multiple AI models.", link: "https://poe.com", category: "Chat" },
+  { name: "Google Bard", desc: "Google's conversational AI.", link: "https://bard.google.com", category: "Chat" },
+  { name: "Gemini", desc: "Google’s multimodal AI.", link: "https://gemini.google.com", category: "Chat" },
+  
+  { name: "Gamma App", desc: "Create AI presentations.", link: "https://gamma.app", category: "Presentation" },
+  { name: "Tome", desc: "AI storytelling tool.", link: "https://tome.app", category: "Presentation" },
+  { name: "SlidesAI", desc: "Turn text into slides.", link: "https://www.slidesai.io", category: "Presentation" },
+  { name: "Canva Magic", desc: "AI-powered designs.", link: "https://www.canva.com/magic-studio/", category: "Presentation" },
+
+  { name: "Notion AI", desc: "AI workspace & note-taking.", link: "https://www.notion.so/product/ai", category: "Productivity" } /* :contentReference[oaicite:1]{index=1} */,
+
+  { name: "Leonardo AI", desc: "Generate AI images.", link: "https://leonardo.ai", category: "Image" },
+  { name: "Supermeme.ai", desc: "Create memes from text.", link: "https://supermeme.ai", category: "Image" },
+  { name: "Pixlr", desc: "AI photo editor & tools.", link: "https://pixlr.com", category: "Image" } /* :contentReference[oaicite:2]{index=2} */,
+
+  { name: "Midjourney", desc: "AI art generation.", link: "https://www.midjourney.com", category: "Image" } /* :contentReference[oaicite:3]{index=3} */,
+  { name: "Stable Diffusion", desc: "Open-source image gen.", link: "https://stability.ai", category: "Image" } /* :contentReference[oaicite:4]{index=4} */,
+  
+  { name: "Runway ML", desc: "AI video creation.", link: "https://runwayml.com", category: "Video" },
+  { name: "Veed.io", desc: "AI video editing.", link: "https://veed.io", category: "Video" },
+  { name: "Descript", desc: "Edit video by editing text.", link: "https://descript.com", category: "Video" },
+  { name: "Synthesia", desc: "Create AI video avatars.", link: "https://synthesia.io", category: "Video" },
+  { name: "Pictory", desc: "Turn text into videos.", link: "https://pictory.ai", category: "Video" },
+  { name: "Opus Clip", desc: "Highlight short AI clips.", link: "https://www.opus.ai", category: "Video" } /* :contentReference[oaicite:5]{index=5} */,
+
+  { name: "Replit AI", desc: "AI coding assistant.", link: "https://replit.com", category: "Code" },
+  { name: "GitHub Copilot", desc: "Codex-based code assistant.", link: "https://github.com/features/copilot", category: "Code" } /* :contentReference[oaicite:6]{index=6} */,
+  { name: "Codeium", desc: "AI code autocomplete.", link: "https://codeium.com", category: "Code" },
+  { name: "Tabnine", desc: "AI code completion.", link: "https://www.tabnine.com", category: "Code" } /* :contentReference[oaicite:7]{index=7} */,
+  { name: "Cursor", desc: "AI-powered code editor.", link: "https://cursor.so", category: "Code" } /* :contentReference[oaicite:8]{index=8} */,
+
+  { name: "Copy.ai", desc: "AI writing for marketing.", link: "https://www.copy.ai", category: "Writing" },
+  { name: "Writesonic", desc: "AI content generator.", link: "https://writesonic.com", category: "Writing" },
+  { name: "Jasper AI", desc: "AI copywriting tool.", link: "https://www.jasper.ai", category: "Writing" },
+  { name: "Rytr", desc: "Short‑form writing tool.", link: "https://rytr.me", category: "Writing" } /* :contentReference[oaicite:9]{index=9} */,
+  { name: "Sudowrite", desc: "Fiction writing AI.", link: "https://www.sudowrite.com", category: "Writing" } /* :contentReference[oaicite:10]{index=10} */,
+  { name: "Grammarly", desc: "Writing assistant & grammar.", link: "https://www.grammarly.com", category: "Writing" } /* :contentReference[oaicite:11]{index=11} */,
+  
+  { name: "Murf AI", desc: "Text-to-voice tool.", link: "https://murf.ai", category: "Voice" },
+  { name: "ElevenLabs", desc: "Realistic voice AI.", link: "https://elevenlabs.com", category: "Voice" } /* :contentReference[oaicite:12]{index=12} */,
+
+  { name: "Speechify", desc: "AI TTS reader.", link: "https://www.speechify.com", category: "Voice" } /* :contentReference[oaicite:13]{index=13} */,
+
+  { name: "Udio AI", desc: "AI music generator.", link: "https://udio.ai", category: "Music" } /* :contentReference[oaicite:14]{index=14} */,
+  { name: "Suno AI", desc: "AI music composer.", link: "https://suno.ai", category: "Music" } /* :contentReference[oaicite:15]{index=15} */,
+
+  { name: "Perplexity AI", desc: "AI search with citations.", link: "https://perplexity.ai", category: "Research" } /* :contentReference[oaicite:16]{index=16} */,
+  { name: "Elicit AI", desc: "Research assistant for papers.", link: "https://elicit.org", category: "Research" } /* :contentReference[oaicite:17]{index=17} */,
+  
+  { name: "Fireflies.ai", desc: "Meeting transcription.", link: "https://fireflies.ai", category: "Meeting" } /* :contentReference[oaicite:18]{index=18} */,
+  { name: "Otter.ai", desc: "AI meeting notes.", link: "https://otter.ai", category: "Meeting" } /* :contentReference[oaicite:19]{index=19} */,
+
+  { name: "Uizard", desc: "Design prototype tool.", link: "https://uizard.io", category: "Design" } /* :contentReference[oaicite:20]{index=20} */,
+  { name: "Looka", desc: "AI logo generator.", link: "https://looka.com", category: "Design" } /* :contentReference[oaicite:21]{index=21} */,
+
+  { name: "Bubble", desc: "No-code web app builder.", link: "https://bubble.io", category: "Website" } /* :contentReference[oaicite:22]{index=22} */,
+  { name: "Bolt.new", desc: "Rapid prototyping tool.", link: "https://bolt.new", category: "Website" } /* :contentReference[oaicite:23]{index=23} */,
+
+  { name: "Asana", desc: "AI project management.", link: "https://asana.com", category: "Productivity" } /* :contentReference[oaicite:24]{index=24} */,
+  { name: "ClickUp", desc: "Task & project AI tool.", link: "https://clickup.com", category: "Productivity" } /* :contentReference[oaicite:25]{index=25} */,
+
+  { name: "Surfer SEO", desc: "Content optimization.", link: "https://surferseo.com", category: "SEO" } /* :contentReference[oaicite:26]{index=26} */,
+  { name: "Frase", desc: "SEO research assistant.", link: "https://frase.io", category: "SEO" } /* :contentReference[oaicite:27]{index=27} */,
+  { name: "SEMRush AI", desc: "Keyword & backlink AI.", link: "https://semrush.com", category: "SEO" } /* :contentReference[oaicite:28]{index=28} */
+];
+
+    let showFavorites = false;
+    const favorites = new Set(JSON.parse(localStorage.getItem("favorites") || "[]"));
+
+    function displayTools(filter = "", category = "") {
+  $.grid.innerHTML = "";
+
+  // Filter tools
+  const filtered = tools.filter(t => {
+    const match = t.name.toLowerCase().includes(filter.toLowerCase()) && (!category || t.category === category);
+    return showFavorites ? favorites.has(t.name) && match : match;
+  });
+
+  if (filtered.length === 0) {
+    const msg = document.createElement("div");
+    msg.className = "animate__animated animate__fadeIn";
+    msg.style.textAlign = "center";
+    msg.style.fontSize = "1rem";
+    msg.style.padding = "2rem 1rem";
+    msg.style.opacity = 0.7;
+    msg.textContent = "😕 No tools found.";
+    $.grid.appendChild(msg);
+    return;
+  }
+
+  // Group by category
+  const grouped = {};
+  filtered.forEach(t => {
+    if (!grouped[t.category]) grouped[t.category] = [];
+    grouped[t.category].push(t);
+  });
+
+  // Render each group
+  Object.entries(grouped).forEach(([cat, tools]) => {
+    const section = document.createElement("div");
+    const header = document.createElement("h2");
+    header.textContent = `📂 ${cat}`;
+    header.style.margin = "2rem 0 1rem";
+    header.style.fontSize = "1.5rem";
+    header.style.color = "var(--primary)";
+    section.appendChild(header);
+
+    const row = document.createElement("div");
+    row.className = "grid";
+
+    tools.forEach(tool => {
+      const isFav = favorites.has(tool.name);
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <button class="fav-btn ${isFav ? 'favorited' : ''}" onclick="toggleFavorite('${tool.name}', this, this.parentElement)">
+          <i class="fas fa-star"></i>
+        </button>
+        <h2>${tool.name}</h2>
+        <p>${tool.desc}</p>
+        <a href="${tool.link}" target="_blank">Visit →</a>
+      `;
+      requestAnimationFrame(() => card.classList.add("show"));
+      row.appendChild(card);
+    });
+
+    section.appendChild(row);
+    $.grid.appendChild(section);
+  });
+}
+
+
+    function toggleFavorite(name, el, card) {
+      if (favorites.has(name)) {
+        favorites.delete(name);
+        el.classList.remove("favorited");
+      } else {
+        favorites.add(name);
+        el.classList.add("favorited");
+        card.classList.add("animate");
+        setTimeout(() => card.classList.remove("animate"), 400);
+      }
+      localStorage.setItem("favorites", JSON.stringify([...favorites]));
+    }
+
+    function updateCategoryOptions() {
+  const cats = [...new Set(tools.map(t => t.category))];
+  $.category.innerHTML = '<option value="">All Categories</option>' +
+    cats.map(cat => `<option value="${cat}">${cat}</option>`).join("");
+}
+
+
+    function toggleTheme() {
+      const theme = document.body.classList.contains("dark") ? "light" : "dark";
+      setTheme(theme);
+    }
+
+    function setTheme(theme) {
+      document.body.classList.remove("light", "dark");
+      document.body.classList.add(theme);
+      localStorage.setItem("theme", theme);
+      const icon = $.themeIcon;
+      icon.className = theme === "dark" ? "fas fa-sun" : "fas fa-moon";
+      icon.classList.remove("sun-animate", "moon-animate");
+      void icon.offsetWidth;
+      icon.classList.add(theme === "dark" ? "sun-animate" : "moon-animate");
+    }
+
+    function applySavedTheme() {
+      const theme = localStorage.getItem("theme") || "light";
+      setTheme(theme);
+    }
+
+    function showToast(message, bg = '#333') {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.style.background = bg;
+      toast.classList.add('show');
+      if (bg !== '#f87171') {
+        setTimeout(() => toast.classList.remove('show'), 3000);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      $.search.focus();
+      $.search.addEventListener("input", () => displayTools($.search.value, $.category.value));
+      $.category.addEventListener("change", () => displayTools($.search.value, $.category.value));
+      $.toggleFavs.addEventListener("click", () => {
+        showFavorites = !showFavorites;
+        displayTools($.search.value, $.category.value);
+        $.toggleFavs.textContent = showFavorites ? "⭐ All Tools" : "⭐ Favorites Only";
+      });
+      applySavedTheme();
+      updateCategoryOptions();
+      displayTools();
+    });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js').then(() => console.log('✅ SW registered'));
+    }
+
+    window.addEventListener('offline', () => {
+      showToast('🔌 You are offline', '#f87171');
+    });
+
+    window.addEventListener('online', () => {
+      showToast('✅ Back online', '#34d399');
+    });
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      const btn = document.createElement('button');
+      btn.textContent = '📲 Install App';
+      btn.style = 'position: fixed; bottom: 1rem; left: 50%; transform: translateX(-50%); z-index:999; background: #3b82f6; color:white; border:none; padding:0.75rem 1.2rem; border-radius:1rem; font-size:1rem; box-shadow:0 2px 6px rgba(0,0,0,0.2);';
+      btn.onclick = async () => {
+        btn.remove();
+        e.prompt();
+        await e.userChoice;
+      };
+      document.body.appendChild(btn);
+    });
+  </script>
+</body>
+</html>
