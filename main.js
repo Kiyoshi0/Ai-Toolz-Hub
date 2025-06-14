@@ -1,6 +1,5 @@
-// main.js — restored from working version with improved structure
+// main.js — clean, final version with fixed intro animation conflict
 
-// Intro overlay
 const overlay = document.getElementById("introOverlay");
 const titleEl = document.getElementById("introTitle");
 const subtitleEl = document.getElementById("introSubtitle");
@@ -17,6 +16,31 @@ function typeText(el, text, speed = 50, cb) {
       if (cb) cb();
     }
   }, speed);
+}
+
+function runIntroSequence() {
+  let dots = 0;
+  const dotInterval = setInterval(() => {
+    titleEl.textContent = "🤖 Welcome to AI Toolz Hub" + ".".repeat(dots % 4);
+    dots++;
+  }, 500);
+
+  setTimeout(() => {
+    clearInterval(dotInterval);
+    typeText(titleEl, "🤖 Welcome to AI Toolz Hub", 60, () => {
+      subtitleEl.textContent = "Explore 50+ free AI tools to help you create, write, build, design, and more.";
+      subtitleEl.style.opacity = "1";
+      enterBtn.style.display = "inline-block";
+    });
+  }, 3000);
+
+  enterBtn.addEventListener("click", () => {
+    const today = new Date().toISOString().split("T")[0];
+    localStorage.setItem("introLastSeen", today);
+    overlay.style.opacity = "0";
+    overlay.style.pointerEvents = "none";
+    setTimeout(() => overlay.remove(), 800);
+  });
 }
 
 const $ = {
@@ -125,42 +149,6 @@ function setTheme(theme) {
 function applySavedTheme() {
   const theme = localStorage.getItem("theme") || "light";
   setTheme(theme);
-  let dots = 0;
-  const dotInterval = setInterval(() => {
-    titleEl.textContent = "." + ".".repeat(dots % 4);
-    dots++;
-  }, 500);
-  setTimeout(() => {
-    clearInterval(dotInterval);
-    typeText(titleEl, " Welcome to AI Toolz Hub ", 60, () => {
-      subtitleEl.textContent = "Explore 50+ free AI tools to help you create, write, build, design, edit, and more.";
-      subtitleEl.style.opacity = "1";
-      enterBtn.style.display = "inline-block";
-    });
-  }, 3000);
-}
-
-function runIntroSequence() {
-  let dots = 0;
-  const dotInterval = setInterval(() => {
-    titleEl.textContent = "🤖 Welcome to AI Toolz Hub" + ".".repeat(dots % 4);
-    dots++;
-  }, 500);
-  setTimeout(() => {
-    clearInterval(dotInterval);
-    typeText(titleEl, "🤖 Welcome to AI Toolz Hub", 60, () => {
-      subtitleEl.textContent = "Explore 50+ free AI tools to help you create, write, build, design, and more.";
-      subtitleEl.style.opacity = "1";
-      enterBtn.style.display = "inline-block";
-    });
-  }, 3000);
-  enterBtn.addEventListener("click", () => {
-    const today = new Date().toISOString().split("T")[0];
-    localStorage.setItem("introLastSeen", today);
-    overlay.style.opacity = "0";
-    overlay.style.pointerEvents = "none";
-    setTimeout(() => overlay.remove(), 800);
-  });
 }
 
 function showToast(message, bg = "#333") {
@@ -193,6 +181,7 @@ function observeFadeIn() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  applySavedTheme();
   $.search.focus();
   $.search.addEventListener("input", () => {
     displayTools($.search.value, $.category.value);
@@ -211,6 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("clearSearch").classList.remove("show");
     $.search.focus();
   });
+
   fetch("tools.json")
     .then(res => res.json())
     .then(data => {
@@ -241,7 +231,6 @@ document.addEventListener("DOMContentLoaded", () => {
       showToast("⚠️ Couldn't load tools", "#f87171");
     });
 
-  applySavedTheme();
   const today = new Date().toISOString().split("T")[0];
   const lastSeen = localStorage.getItem("introLastSeen");
   if (lastSeen !== today) runIntroSequence();
