@@ -9,14 +9,18 @@ const $ = {
 };
 
 let tools = [];
+document.getElementById("loader").style.display = "flex";
+
 fetch('tools.json')
   .then(res => res.json())
   .then(data => {
     tools = data;
+    document.getElementById("loader").style.display = "none";
     updateCategoryOptions();
     displayTools();
   })
   .catch(err => {
+    document.getElementById("loader").style.display = "none";
     console.error("❌ Failed to load tools.json:", err);
     showToast("⚠️ Couldn't load tools", "#f87171");
   });
