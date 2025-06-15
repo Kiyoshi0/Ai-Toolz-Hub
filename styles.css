@@ -161,20 +161,16 @@ body {
   font-weight: 600;
 }
 
-.badge.Chat { background: #fce7f3; color: #be185d; }
-.badge.Image { background: #f0f9ff; color: #0369a1; }
-.badge.Video { background: #fef2f2; color: #b91c1c; }
-.badge.Code { background: #f3f4f6; color: #1e293b; }
-.badge.Writing { background: #fdf6e3; color: #92400e; }
-.badge.Voice { background: #ede9fe; color: #5b21b6; }
-.badge.SEO { background: #ecfdf5; color: #047857; }
-.badge.Research { background: #e0f2fe; color: #075985; }
-.badge.Design { background: #fdf2f8; color: #9d174d; }
-.badge.Music { background: #f0fdf4; color: #15803d; }
-.badge.Website { background: #fefce8; color: #713f12; }
-.badge.Productivity { background: #f3f4f6; color: #1e40af; }
-.badge.Meeting { background: #e2e8f0; color: #475569; }
-.badge.Presentation { background: #fef3c7; color: #92400e; }
+/* Center "no tools found" message */
+.grid:empty::after {
+  content: "😕 No tools found.";
+  display: block;
+  text-align: center;
+  color: #777;
+  font-size: 1rem;
+  padding: 3rem 1rem;
+  opacity: 0.7;
+}
 
 .toast {
   position: fixed;
