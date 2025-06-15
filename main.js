@@ -1,4 +1,4 @@
-// main.js — updated with scroll-to-top + skeleton loading
+// main.js — clean, final version with fixed intro animation conflict
 
 const overlay = document.getElementById("introOverlay");
 const titleEl = document.getElementById("introTitle");
@@ -18,6 +18,31 @@ function typeText(el, text, speed = 50, cb) {
   }, speed);
 }
 
+function runIntroSequence() {
+  let dots = 0;
+  const dotInterval = setInterval(() => {
+    titleEl.textContent = "🤖 Welcome to AI Toolz Hub" + ".".repeat(dots % 4);
+    dots++;
+  }, 500);
+
+  setTimeout(() => {
+    clearInterval(dotInterval);
+    typeText(titleEl, "🤖 Welcome to AI Toolz Hub", 60, () => {
+      subtitleEl.textContent = "Explore 50+ free AI tools to help you create, write, build, design, and more.";
+      subtitleEl.style.opacity = "1";
+      enterBtn.style.display = "inline-block";
+    });
+  }, 3000);
+
+  enterBtn.addEventListener("click", () => {
+    const today = new Date().toISOString().split("T")[0];
+    localStorage.setItem("introLastSeen", today);
+    overlay.style.opacity = "0";
+    overlay.style.pointerEvents = "none";
+    setTimeout(() => overlay.remove(), 800);
+  });
+}
+
 const $ = {
   grid: document.getElementById("toolGrid"),
   search: document.getElementById("search"),
@@ -26,50 +51,8 @@ const $ = {
   themeIcon: document.getElementById("themeIcon")
 };
 
-let tools = [];
-function showSkeletonCards(count = 6) {
-  $.grid.innerHTML = "";
-  for (let i = 0; i < count; i++) {
-    const div = document.createElement("div");
-    div.className = "skeleton";
-    $.grid.appendChild(div);
-  }
-}
-
-showSkeletonCards();
-
-fetch("tools.json")
-  .then(res => res.json())
-  .then(data => {
-    tools = data;
-    document.querySelector("header p").textContent = `Discover ${tools.length}+ free AI tools in one place.`;
-    const randomTool = tools[Math.floor(Math.random() * tools.length)];
-    const icons = {
-      Chat: "💬", Image: "🖼️", Video: "🎬", Code: "💻", Writing: "📝", Voice: "🎤",
-      SEO: "📈", Research: "🔍", Design: "🎨", Music: "🎵", Website: "🌐",
-      Productivity: "🧠", Meeting: "📅", Presentation: "📊"
-    };
-    const icon = icons[randomTool.category] || "✨";
-    document.querySelector(".featured-wrapper").innerHTML = `
-      <div class="card show">
-        <h2>${icon} ${randomTool.name}</h2>
-        <p><strong>Category:</strong> ${randomTool.category}</p>
-        <p>${randomTool.desc}</p>
-        <a href="${randomTool.link}" target="_blank">🌐 Visit →</a>
-      </div>`;
-
-    $.grid.innerHTML = "";
-    updateCategoryOptions();
-    displayTools();
-    observeFadeIn();
-  })
-  .catch(err => {
-    $.grid.innerHTML = "";
-    console.error("❌ Failed to load tools.json:", err);
-    showToast("⚠️ Couldn't load tools", "#f87171");
-  });
-
 let showFavorites = false;
+let tools = [];
 const favorites = new Set(JSON.parse(localStorage.getItem("favorites") || "[]"));
 
 function highlightMatch(text, keyword) {
@@ -84,7 +67,6 @@ function displayTools(filter = "", category = "") {
     const match = t.name.toLowerCase().includes(filter.toLowerCase()) && (!category || t.category === category);
     return showFavorites ? favorites.has(t.name) && match : match;
   });
-
   if (filtered.length === 0) {
     const msg = document.createElement("div");
     msg.className = "animate__animated animate__fadeIn";
@@ -96,23 +78,19 @@ function displayTools(filter = "", category = "") {
     $.grid.appendChild(msg);
     return;
   }
-
   const grouped = {};
   filtered.forEach(t => {
     if (!grouped[t.category]) grouped[t.category] = [];
     grouped[t.category].push(t);
   });
-
   Object.entries(grouped).forEach(([cat, tools]) => {
     const section = document.createElement("div");
     const header = document.createElement("h2");
     header.classList.add("fade-in-up");
     header.innerHTML = `<span class="cat-icon">📂</span> <span class="cat-name">${cat}</span>`;
     section.appendChild(header);
-
     const row = document.createElement("div");
     row.className = "grid";
-
     tools.forEach(tool => {
       const isFav = favorites.has(tool.name);
       const card = document.createElement("div");
@@ -129,7 +107,6 @@ function displayTools(filter = "", category = "") {
       requestAnimationFrame(() => card.classList.add("show"));
       row.appendChild(card);
     });
-
     section.appendChild(row);
     $.grid.appendChild(section);
   });
@@ -172,19 +149,6 @@ function setTheme(theme) {
 function applySavedTheme() {
   const theme = localStorage.getItem("theme") || "light";
   setTheme(theme);
-  let dots = 0;
-  const dotInterval = setInterval(() => {
-    titleEl.textContent = "." + ".".repeat(dots % 4);
-    dots++;
-  }, 500);
-  setTimeout(() => {
-    clearInterval(dotInterval);
-    typeText(titleEl, " Welcome to AI Toolz Hub ", 60, () => {
-      subtitleEl.textContent = "Explore 50+ free AI tools to help you create, write, build, design, edit, and more.";
-      subtitleEl.style.opacity = "1";
-      enterBtn.style.display = "inline-block";
-    });
-  }, 3000);
 }
 
 function showToast(message, bg = "#333") {
@@ -203,7 +167,21 @@ function copyLink(url) {
     .catch(() => showToast("❌ Failed to copy", "#f87171"));
 }
 
+function observeFadeIn() {
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      }
+    }),
+    { threshold: 0.1 }
+  );
+  document.querySelectorAll(".fade-in-up").forEach(el => observer.observe(el));
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  applySavedTheme();
   $.search.focus();
   $.search.addEventListener("input", () => {
     displayTools($.search.value, $.category.value);
@@ -223,30 +201,40 @@ document.addEventListener("DOMContentLoaded", () => {
     $.search.focus();
   });
 
-  enterBtn.addEventListener("click", () => {
-    overlay.style.opacity = "0";
-    overlay.style.pointerEvents = "none";
-    setTimeout(() => overlay.remove(), 800);
-  });
-
-  applySavedTheme();
+  fetch("tools.json")
+    .then(res => res.json())
+    .then(data => {
+      tools = data;
+      document.querySelector("header p").textContent = `Discover ${tools.length}+ free AI tools in one place.`;
+      const randomTool = tools[Math.floor(Math.random() * tools.length)];
+      const icons = {
+        Chat: "💬", Image: "🖼️", Video: "🎬", Code: "💻", Writing: "📝", Voice: "🎤",
+        SEO: "📈", Research: "🔍", Design: "🎨", Music: "🎵", Website: "🌐",
+        Productivity: "🧠", Meeting: "📅", Presentation: "📊"
+      };
+      const icon = icons[randomTool.category] || "✨";
+      document.querySelector(".featured-wrapper").innerHTML = `
+        <div class="card show">
+          <h2>${icon} ${randomTool.name}</h2>
+          <p><strong>Category:</strong> ${randomTool.category}</p>
+          <p>${randomTool.desc}</p>
+          <a href="${randomTool.link}" target="_blank">🌐 Visit →</a>
+        </div>`;
+      document.getElementById("loader").style.display = "none";
+      updateCategoryOptions();
+      displayTools();
+      observeFadeIn();
+    })
+    .catch(err => {
+      document.getElementById("loader").style.display = "none";
+      console.error("❌ Failed to load tools.json:", err);
+      showToast("⚠️ Couldn't load tools", "#f87171");
+    });
 
   const today = new Date().toISOString().split("T")[0];
   const lastSeen = localStorage.getItem("introLastSeen");
-
-  if (lastSeen !== today) {
-    runIntroSequence();
-  } else {
-    overlay.remove();
-  }
-
-  const scrollBtn = document.getElementById("scrollTopBtn");
-  window.addEventListener("scroll", () => {
-    scrollBtn.classList.toggle("show", window.scrollY > 300);
-  });
-  scrollBtn.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
+  if (lastSeen !== today) runIntroSequence();
+  else overlay.remove();
 });
 
 if ('serviceWorker' in navigator) {
@@ -269,40 +257,4 @@ window.addEventListener("beforeinstallprompt", e => {
   document.body.appendChild(btn);
 });
 
-function observeFadeIn() {
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  document.querySelectorAll(".fade-in-up").forEach(el => observer.observe(el));
-}
-
-function runIntroSequence() {
-  let dots = 0;
-  const dotInterval = setInterval(() => {
-    titleEl.textContent = "🤖 Welcome to AI Toolz Hub" + ".".repeat(dots % 4);
-    dots++;
-  }, 500);
-
-  setTimeout(() => {
-    clearInterval(dotInterval);
-    typeText(titleEl, "🤖 Welcome to AI Toolz Hub", 60, () => {
-      subtitleEl.textContent = "Explore 50+ free AI tools to help you create, write, build, design, and more.";
-      subtitleEl.style.opacity = "1";
-      enterBtn.style.display = "inline-block";
-    });
-  }, 3000);
-
-  enterBtn.addEventListener("click", () => {
-    const today = new Date().toISOString().split("T")[0];
-    localStorage.setItem("introLastSeen", today);
-    overlay.style.opacity = "0";
-    overlay.style.pointerEvents = "none";
-    setTimeout(() => overlay.remove(), 800);
-  });
-}
 
