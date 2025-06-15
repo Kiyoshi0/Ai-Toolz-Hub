@@ -1,9 +1,10 @@
-// main.js — clean, final version with fixed intro animation conflict
+// main.js — clean, final version with scroll button & fade-in observer
 
 const overlay = document.getElementById("introOverlay");
 const titleEl = document.getElementById("introTitle");
 const subtitleEl = document.getElementById("introSubtitle");
 const enterBtn = document.getElementById("enterBtn");
+const scrollTopBtn = document.getElementById("scrollTopBtn");
 
 function typeText(el, text, speed = 50, cb) {
   el.textContent = "";
@@ -67,6 +68,7 @@ function displayTools(filter = "", category = "") {
     const match = t.name.toLowerCase().includes(filter.toLowerCase()) && (!category || t.category === category);
     return showFavorites ? favorites.has(t.name) && match : match;
   });
+
   if (filtered.length === 0) {
     const msg = document.createElement("div");
     msg.className = "animate__animated animate__fadeIn";
@@ -78,19 +80,23 @@ function displayTools(filter = "", category = "") {
     $.grid.appendChild(msg);
     return;
   }
+
   const grouped = {};
   filtered.forEach(t => {
     if (!grouped[t.category]) grouped[t.category] = [];
     grouped[t.category].push(t);
   });
+
   Object.entries(grouped).forEach(([cat, tools]) => {
     const section = document.createElement("div");
     const header = document.createElement("h2");
     header.classList.add("fade-in-up");
     header.innerHTML = `<span class="cat-icon">📂</span> <span class="cat-name">${cat}</span>`;
     section.appendChild(header);
+
     const row = document.createElement("div");
     row.className = "grid";
+
     tools.forEach(tool => {
       const isFav = favorites.has(tool.name);
       const card = document.createElement("div");
@@ -107,6 +113,7 @@ function displayTools(filter = "", category = "") {
       requestAnimationFrame(() => card.classList.add("show"));
       row.appendChild(card);
     });
+
     section.appendChild(row);
     $.grid.appendChild(section);
   });
@@ -179,6 +186,14 @@ function observeFadeIn() {
   );
   document.querySelectorAll(".fade-in-up").forEach(el => observer.observe(el));
 }
+
+window.addEventListener("scroll", () => {
+  scrollTopBtn.classList.toggle("show", window.scrollY > 300);
+});
+
+scrollTopBtn.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
 
 document.addEventListener("DOMContentLoaded", () => {
   applySavedTheme();
@@ -256,5 +271,3 @@ window.addEventListener("beforeinstallprompt", e => {
   };
   document.body.appendChild(btn);
 });
-
-
