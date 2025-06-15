@@ -1,7 +1,7 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- 🌐 Basic SEO -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI Toolz Hub</title>
@@ -9,18 +9,12 @@
   <meta name="theme-color" content="#3b82f6" />
   <link rel="canonical" href="https://kiyoshi0.github.io/ai-toolz-hub/" />
   <link rel="manifest" href="manifest.json" />
-
-  <!-- Favicons -->
   <link rel="apple-touch-icon" href="icon-192.png" />
   <link rel="icon" href="icon-192.png" sizes="192x192" />
-
-  <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <link rel="stylesheet" href="styles.css" />
-
-  <!-- Plausible Analytics -->
   <script defer data-domain="kiyoshi0.github.io/ai-toolz-hub" src="https://plausible.io/js/script.file-downloads.hash.outbound-links.pageview-props.revenue.tagged-events.js"></script>
   <script>
     window.plausible = window.plausible || function () {
@@ -30,14 +24,14 @@
 </head>
 <body>
   <div id="introOverlay">
-  <div class="blob-bg"></div>
-  <canvas id="starCanvas"></canvas>
-  <div class="intro-content">
-    <h1 id="introTitle"></h1>
-    <p id="introSubtitle"></p>
-    <button id="enterBtn" style="display:none;">🚀 Enter</button>
+    <div class="blob-bg"></div>
+    <canvas id="starCanvas"></canvas>
+    <div class="intro-content">
+      <h1 id="introTitle"></h1>
+      <p id="introSubtitle"></p>
+      <button id="enterBtn" style="display:none;">🚀 Enter</button>
+    </div>
   </div>
-</div>
   <header>
     <div class="theme-toggle" onclick="toggleTheme()">
       <i id="themeIcon" class="fas"></i>
@@ -48,7 +42,6 @@
       <div class="featured-wrapper"></div>
     </section>
   </header>
-
   <div class="controls">
     <div class="search-box">
       <input type="text" id="search" placeholder="Search tools..." />
@@ -57,17 +50,98 @@
     <select id="category"></select>
     <button id="toggleFavs">⭐ Favorites Only</button>
   </div>
-
   <div class="grid" id="toolGrid"></div>
   <div id="loader" class="loader" aria-hidden="true">
     <div class="spinner"></div>
     <p>Loading tools...</p>
   </div>
-
   <footer>© 2025 AI Toolz Hub – Built by JV</footer>
   <div id="toast" class="toast"></div>
-
   <script src="main.js"></script>
   <button id="scrollTopBtn" title="Back to top">⬆️</button>
+</body>
+</html>
+
+<!-- manifest.json -->
+{
+  "name": "AI Toolz Hub",
+  "short_name": "AI Hub",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f0f4ff",
+  "theme_color": "#3b82f6",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+
+<!-- service-worker.js -->
+const CACHE_NAME = 'ai-toolz-cache-v2';
+const OFFLINE_URL = 'offline.html';
+
+const FILES_TO_CACHE = [
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/icon-192.png',
+  '/icon-512.png',
+  '/offline.html',
+  '/main.js',
+  '/styles.css',
+  '/tools.json'
+];
+
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => cache.addAll(FILES_TO_CACHE))
+  );
+});
+
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    fetch(event.request).catch(() =>
+      caches.match(event.request).then(res => res || caches.match(OFFLINE_URL))
+    )
+  );
+});
+
+<!-- offline.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Offline</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: #f0f4ff;
+      color: #333;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 { font-size: 2rem; margin-bottom: 1rem; }
+    p { font-size: 1.1rem; }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>🔌 You are offline</h1>
+    <p>Please check your internet connection and try again.</p>
+  </div>
 </body>
 </html>
