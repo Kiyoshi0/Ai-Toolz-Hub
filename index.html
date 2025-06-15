@@ -1,63 +1,66 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI Toolz Hub</title>
-  <meta name="description" content="A mobile-friendly hub of 50+ free AI tools. Installable as a PWA. Works offline. Built for creators." />
-  <meta name="theme-color" content="#3b82f6" />
+  <meta name="description" content="Discover 50+ free AI tools for creators, developers, and productivity." />
+  <meta name="theme-color" content="#a78bfa" />
   <link rel="canonical" href="https://kiyoshi0.github.io/ai-toolz-hub/" />
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icon-192.png" />
   <link rel="icon" href="icon-192.png" sizes="192x192" />
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <script defer data-domain="kiyoshi0.github.io/ai-toolz-hub" src="https://plausible.io/js/script.file-downloads.hash.outbound-links.pageview-props.revenue.tagged-events.js"></script>
-  <script>
-    window.plausible = window.plausible || function () {
-      (window.plausible.q = window.plausible.q || []).push(arguments);
-    };
-  </script>
+  <script defer data-domain="kiyoshi0.github.io/ai-toolz-hub" src="https://plausible.io/js/script.js"></script>
 </head>
 <body>
-  <div id="introOverlay">
-    <div class="blob-bg"></div>
-    <canvas id="starCanvas"></canvas>
-    <div class="intro-content">
-      <h1 id="introTitle"></h1>
-      <p id="introSubtitle"></p>
-      <button id="enterBtn" style="display:none;">🚀 Enter</button>
+  <nav class="topbar">
+    <div class="logo">🤖 AI Toolz Hub</div>
+    <div class="nav-actions">
+      <a href="#" class="btn ghost">Login</a>
+      <a href="#" class="btn primary">Subscribe</a>
     </div>
-  </div>
-  <header>
-    <div class="theme-toggle" onclick="toggleTheme()">
-      <i id="themeIcon" class="fas"></i>
-    </div>
-    <h1 class="animate__animated animate__fadeInDown">AI Toolz Hub</h1>
-    <p class="animate__animated animate__fadeInUp">Discover the best free AI tools in one place.</p>
-    <section id="featured" class="featured-card">
-      <div class="featured-wrapper"></div>
-    </section>
-  </header>
-  <div class="controls">
-    <div class="search-box">
+  </nav>
+
+  <header class="hero">
+    <h1>Discover 50+ Free AI Tools</h1>
+    <p>Explore AI for writing, design, coding, video, music, and more.</p>
+    <div class="search-controls">
       <input type="text" id="search" placeholder="Search tools..." />
-      <button id="clearSearch" aria-label="Clear search">×</button>
+      <select id="category"></select>
+      <button id="toggleFavs" class="ghost">⭐ Favorites Only</button>
     </div>
-    <select id="category"></select>
-    <button id="toggleFavs">⭐ Favorites Only</button>
-  </div>
-  <div class="grid" id="toolGrid"></div>
-  <div id="loader" class="loader" aria-hidden="true">
-    <div class="spinner"></div>
-    <p>Loading tools...</p>
-  </div>
-  <footer>© 2025 AI Toolz Hub – Built by JV</footer>
+  </header>
+
+  <main>
+    <div class="grid" id="toolGrid"></div>
+    <div id="loader" class="loader" aria-hidden="true">
+      <div class="spinner"></div>
+      <p>Loading tools...</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 AI Toolz Hub – Built by JV</p>
+  </footer>
+
   <div id="toast" class="toast"></div>
   <script src="main.js"></script>
-  <button id="scrollTopBtn" title="Back to top">⬆️</button>
 </body>
 </html>
+
+<!-- manifest.json -->
+{
+  "name": "AI Toolz Hub",
+  "short_name": "AI Hub",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#a78bfa",
+  "lang": "en",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
