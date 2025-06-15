@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ai-toolz-cache-v1';
+const CACHE_NAME = 'ai-toolz-cache-v2';
 const OFFLINE_URL = 'offline.html';
 
 const FILES_TO_CACHE = [
@@ -7,7 +7,10 @@ const FILES_TO_CACHE = [
   '/manifest.json',
   '/icon-192.png',
   '/icon-512.png',
-  '/offline.html'
+  '/offline.html',
+  '/main.js',
+  '/styles.css',
+  '/tools.json'
 ];
 
 self.addEventListener('install', event => {
