@@ -1,10 +1,12 @@
+/* ✅ COMPLETE styles.css (Scroll button, Skeletons, Featured hover, Select UX, Full Version) */
+
 :root {
   --bg-light: #f0f4ff;
   --fg-light: #111;
   --card-bg-light: #fff;
-  --bg-dark: #111827;
+  --bg-dark: #0f172a;
   --fg-dark: #f3f4f6;
-  --card-bg-dark: #1f2937;
+  --card-bg-dark: #1e293b;
   --primary: #3b82f6;
   --secondary: #6366f1;
   --header-bg: linear-gradient(135deg, var(--secondary), var(--primary));
@@ -14,6 +16,8 @@ body {
   font-family: 'Sora', sans-serif;
   margin: 0;
   transition: background-color 0.5s ease, color 0.5s ease;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body.light {
@@ -36,6 +40,12 @@ body.dark .card {
   color: var(--fg-dark);
 }
 
+.featured-wrapper .card:hover {
+  transform: scale(1.02);
+  transition: transform 0.3s ease;
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.1);
+}
+
 header {
   background: radial-gradient(circle at top left, var(--primary), var(--secondary));
   color: white;
@@ -45,17 +55,19 @@ header {
   border-bottom-left-radius: 2rem;
   border-bottom-right-radius: 2rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 header h1 {
   margin: 0;
-  font-size: 2.7rem;
+  font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 800;
 }
 
 header p {
   margin: 0.5rem 0 0;
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
 }
 
 .theme-toggle {
@@ -91,6 +103,30 @@ header p {
   z-index: 100;
   background: inherit;
   transition: background-color 0.5s ease;
+}
+
+.controls select {
+  min-width: 150px;
+  padding-right: 2rem;
+  appearance: none;
+  background-position: right 1rem center;
+  background-repeat: no-repeat;
+}
+
+.controls select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+@media (max-width: 480px) {
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .controls select,
+  .controls input {
+    width: 100%;
+  }
 }
 
 .search-box {
@@ -161,12 +197,8 @@ header p {
   padding: 1.5rem;
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.07);
   position: relative;
-}
-
-.card {
   transform-style: preserve-3d;
   perspective: 1000px;
-  transition: transform 0.25s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
