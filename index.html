@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,11 +16,20 @@
   <script defer data-domain="kiyoshi0.github.io/ai-toolz-hub" src="https://plausible.io/js/script.js"></script>
 </head>
 <body>
+  <div id="introOverlay">
+    <div class="blob-bg"></div>
+    <canvas id="starCanvas"></canvas>
+    <div class="intro-content">
+      <h1 id="introTitle"></h1>
+      <p id="introSubtitle"></p>
+      <button id="enterBtn" style="display:none;">🚀 Enter</button>
+    </div>
+  </div>
+
   <nav class="topbar">
     <div class="logo">🤖 AI Toolz Hub</div>
     <div class="nav-actions">
       <a href="#" class="btn ghost">Login</a>
-      <a href="#" class="btn primary">Subscribe</a>
     </div>
   </nav>
 
@@ -47,20 +57,6 @@
 
   <div id="toast" class="toast"></div>
   <script src="main.js"></script>
+  <button id="scrollTopBtn" title="Back to top">⬆️</button>
 </body>
 </html>
-
-<!-- manifest.json -->
-{
-  "name": "AI Toolz Hub",
-  "short_name": "AI Hub",
-  "start_url": ".",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#a78bfa",
-  "lang": "en",
-  "icons": [
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
-  ]
-}
