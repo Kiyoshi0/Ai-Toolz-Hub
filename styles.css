@@ -1,4 +1,5 @@
-/* styles.css — updated with fav-btn and clickable logo */
+/* styles.css — complete with nav + footer icons + signup button */
+
 :root {
   --accent: #a78bfa;
   --bg: #ffffff;
@@ -6,34 +7,37 @@
   --gray: #e5e7eb;
   --radius: 1rem;
 }
+
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
   background: var(--bg);
   color: var(--fg);
 }
+
 .logo {
   font-weight: 800;
   font-size: 1.2rem;
   color: var(--accent);
   cursor: pointer;
 }
+
 .fav-btn {
-  color: #aaa;
-  background: none;
-  border: none;
   position: absolute;
   top: 1rem;
   right: 1rem;
+  background: none;
+  border: none;
   font-size: 1.2rem;
+  color: #aaa;
   cursor: pointer;
+  transition: color 0.2s;
 }
 
 .fav-btn.favorited {
   color: gold;
 }
 
-/* Intro overlay */
 #introOverlay {
   position: fixed;
   inset: 0;
@@ -76,7 +80,6 @@ body {
   box-shadow: 0 0 10px var(--accent);
 }
 
-/* Top bar */
 .topbar {
   display: flex;
   justify-content: space-between;
@@ -107,7 +110,12 @@ body {
   border-color: var(--accent);
 }
 
-/* Header/hero section */
+.nav-actions .btn.signup {
+  background: #a78bfa;
+  color: white;
+  border: none;
+}
+
 .hero {
   padding: 2rem 1rem;
   text-align: center;
@@ -149,7 +157,6 @@ body {
   flex: 1 1 220px;
 }
 
-/* Grid layout for cards */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -204,15 +211,40 @@ body {
   text-decoration: underline;
 }
 
-/* Footer */
 footer {
   text-align: center;
   font-size: 0.85rem;
-  padding: 2rem 1rem;
+  padding: 2rem 1rem 1rem;
   color: #777;
 }
 
-/* Toast message */
+.social-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 0.75rem;
+}
+
+.social-links a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: var(--accent);
+  font-size: 0.85rem;
+}
+
+.social-links img {
+  transition: transform 0.2s ease;
+  filter: grayscale(0.5);
+}
+
+.social-links img:hover {
+  transform: scale(1.1);
+  filter: none;
+}
+
 .toast {
   position: fixed;
   bottom: 1rem;
@@ -233,7 +265,6 @@ footer {
   pointer-events: auto;
 }
 
-/* Loader */
 .loader {
   text-align: center;
   padding: 3rem;
