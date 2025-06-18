@@ -1,21 +1,55 @@
 /* styles.css */
 :root {
+  --accent: #a78bfa;
   --bg: #ffffff;
   --fg: #111;
-  --accent: #a78bfa;
-  --accent-light: #ede9fe;
   --gray: #e5e7eb;
-  --shadow: rgba(0, 0, 0, 0.05);
   --radius: 1rem;
 }
-
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
   background: var(--bg);
   color: var(--fg);
 }
-
+/* Intro overlay */
+#introOverlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, #ede9fe 0%, #d8b4fe 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  text-align: center;
+  padding: 2rem;
+  transition: opacity 0.5s ease;
+}
+#introOverlay.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+.intro-content h1 {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+.intro-content p {
+  font-size: 1.1rem;
+  max-width: 480px;
+  margin: 0 auto 1.5rem;
+  color: #444;
+}
+#enterBtn {
+  font-size: 1rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  box-shadow: 0 0 10px var(--accent);
+}
 .topbar {
   display: flex;
   justify-content: space-between;
@@ -24,13 +58,11 @@ body {
   border-bottom: 1px solid var(--gray);
   background: #fdfcff;
 }
-
 .logo {
   font-weight: 800;
   font-size: 1.2rem;
   color: var(--accent);
 }
-
 .nav-actions .btn {
   margin-left: 1rem;
   padding: 0.5rem 1rem;
@@ -40,37 +72,31 @@ body {
   border: 1px solid transparent;
   transition: 0.2s;
 }
-
 .btn.primary {
   background: var(--accent);
   color: white;
 }
-
 .btn.ghost {
   background: transparent;
   color: var(--accent);
   border-color: var(--accent);
 }
-
 .hero {
-  padding: 2rem 1rem 1rem;
+  padding: 2rem 1rem;
   text-align: center;
-  background: var(--accent-light);
+  background: #f3f0ff;
 }
-
 .hero h1 {
   font-size: 2rem;
   margin: 0 0 0.5rem;
   font-weight: 800;
 }
-
 .hero p {
   margin: 0 auto 1.5rem;
   font-size: 1rem;
   max-width: 600px;
   opacity: 0.8;
 }
-
 .search-controls {
   display: flex;
   flex-wrap: wrap;
@@ -79,7 +105,6 @@ body {
   max-width: 720px;
   margin: auto;
 }
-
 .search-controls input,
 .search-controls select,
 .search-controls button {
@@ -88,11 +113,9 @@ body {
   border: 1px solid var(--gray);
   border-radius: var(--radius);
 }
-
 .search-controls input {
   flex: 1 1 220px;
 }
-
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -101,67 +124,6 @@ body {
   max-width: 1200px;
   margin: auto;
 }
-
-.card {
-  background: white;
-  border: 1px solid var(--gray);
-  border-radius: var(--radius);
-  padding: 1.5rem;
-  box-shadow: 0 2px 6px var(--shadow);
-  transition: transform 0.2s ease;
-  position: relative;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-}
-
-.card h2 {
-  font-size: 1.2rem;
-  margin: 0 0 0.25rem;
-}
-
-.card p {
-  margin: 0 0 1rem;
-  font-size: 0.95rem;
-  color: #444;
-}
-
-.card a {
-  font-weight: 600;
-  color: var(--accent);
-  text-decoration: none;
-}
-
-.card a:hover {
-  text-decoration: underline;
-}
-
-.fav-btn {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  cursor: pointer;
-  color: #999;
-}
-
-.fav-btn.favorited {
-  color: gold;
-}
-
-.badge {
-  display: inline-block;
-  font-size: 0.75rem;
-  padding: 0.25rem 0.6rem;
-  border-radius: 999px;
-  margin-bottom: 0.75rem;
-  font-weight: 600;
-}
-
-/* Center "no tools found" message */
 .grid:empty::after {
   content: "😕 No tools found.";
   display: block;
@@ -171,7 +133,41 @@ body {
   padding: 3rem 1rem;
   opacity: 0.7;
 }
-
+.card {
+  background: white;
+  border: 1px solid var(--gray);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+  position: relative;
+}
+.card:hover {
+  transform: translateY(-3px);
+}
+.card h2 {
+  font-size: 1.2rem;
+  margin: 0 0 0.5rem;
+}
+.card p {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  color: #444;
+}
+.card a {
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+}
+.card a:hover {
+  text-decoration: underline;
+}
+footer {
+  text-align: center;
+  font-size: 0.85rem;
+  padding: 2rem 1rem;
+  color: #777;
+}
 .toast {
   position: fixed;
   bottom: 1rem;
@@ -186,19 +182,10 @@ body {
   transition: opacity 0.3s ease;
   z-index: 9999;
 }
-
 .toast.show {
   opacity: 1;
   pointer-events: auto;
 }
-
-footer {
-  text-align: center;
-  font-size: 0.85rem;
-  padding: 2rem 1rem;
-  color: #777;
-}
-
 .loader {
   text-align: center;
   padding: 3rem;
