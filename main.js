@@ -1,5 +1,3 @@
-// main.js — with favorites button and logo click fix
-
 document.addEventListener("DOMContentLoaded", () => {
   const $ = {
     grid: document.getElementById("toolGrid"),
@@ -26,7 +24,9 @@ document.addEventListener("DOMContentLoaded", () => {
       card.className = "card";
       const isFav = favorites.has(tool.name);
       card.innerHTML = `
-        <button class="fav-btn ${isFav ? 'favorited' : ''}" onclick="toggleFavorite('${tool.name}', this)" aria-label="Favorite">⭐</button>
+        <button class="fav-btn ${isFav ? 'favorited' : ''}" onclick="toggleFavorite('${tool.name}', this)">
+          <span>⭐</span>
+        </button>
         <h2>${tool.name}</h2>
         <p>${tool.desc}</p>
         <a href="${tool.link}" target="_blank">Visit →</a>
@@ -48,7 +48,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateCategoryOptions() {
     const cats = [...new Set(tools.map(t => t.category))];
-    $.category.innerHTML = '<option value="">All Categories</option>' + cats.map(cat => `<option value="${cat}">${cat}</option>`).join("");
+    $.category.innerHTML = '<option value="">All Categories</option>' +
+      cats.map(cat => `<option value="${cat}">${cat}</option>`).join("");
   }
 
   $.search.addEventListener("input", () => displayTools($.search.value, $.category.value));
