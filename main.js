@@ -1,4 +1,4 @@
-// main.js — full fixed version
+// main.js — full fixed version + install prompt
 
 document.addEventListener("DOMContentLoaded", () => {
   const $ = {
@@ -38,7 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
     $.category.innerHTML = '<option value="">All Categories</option>' + cats.map(cat => `<option value="${cat}">${cat}</option>`).join("");
   }
 
-  // UI listeners
   $.search.addEventListener("input", () => displayTools($.search.value, $.category.value));
   $.category.addEventListener("change", () => displayTools($.search.value, $.category.value));
   $.toggleFavs.addEventListener("click", () => {
@@ -60,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
       $.grid.innerHTML = `<div style='text-align:center;padding:2rem;color:#999;'>⚠️ Couldn't load tools</div>`;
     });
 
-  // Intro screen logic
   enterBtn.addEventListener("click", () => {
     overlay.classList.add("fade-out");
     setTimeout(() => overlay.remove(), 500);
@@ -75,4 +73,22 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     overlay.remove();
   }
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register("service-worker.js");
+  }
+
+  // Show PWA install prompt
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    const btn = document.createElement("button");
+    btn.textContent = "📲 Install App";
+    btn.style = "position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);z-index:999;background:#a78bfa;color:white;border:none;padding:0.75rem 1.2rem;border-radius:1rem;font-size:1rem;box-shadow:0 2px 6px rgba(0,0,0,0.2);";
+    btn.onclick = async () => {
+      btn.remove();
+      e.prompt();
+      await e.userChoice;
+    };
+    document.body.appendChild(btn);
+  });
 });
