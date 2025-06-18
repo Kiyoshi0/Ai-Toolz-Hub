@@ -1,4 +1,4 @@
-// main.js — full fixed version + install prompt
+// main.js — with favorites button and logo click fix
 
 document.addEventListener("DOMContentLoaded", () => {
   const $ = {
@@ -24,7 +24,9 @@ document.addEventListener("DOMContentLoaded", () => {
     filtered.forEach(tool => {
       const card = document.createElement("div");
       card.className = "card";
+      const isFav = favorites.has(tool.name);
       card.innerHTML = `
+        <button class="fav-btn ${isFav ? 'favorited' : ''}" onclick="toggleFavorite('${tool.name}', this)" aria-label="Favorite">⭐</button>
         <h2>${tool.name}</h2>
         <p>${tool.desc}</p>
         <a href="${tool.link}" target="_blank">Visit →</a>
@@ -32,6 +34,17 @@ document.addEventListener("DOMContentLoaded", () => {
       $.grid.appendChild(card);
     });
   }
+
+  window.toggleFavorite = function(name, el) {
+    if (favorites.has(name)) {
+      favorites.delete(name);
+      el.classList.remove("favorited");
+    } else {
+      favorites.add(name);
+      el.classList.add("favorited");
+    }
+    localStorage.setItem("favorites", JSON.stringify([...favorites]));
+  };
 
   function updateCategoryOptions() {
     const cats = [...new Set(tools.map(t => t.category))];
@@ -78,7 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
     navigator.serviceWorker.register("service-worker.js");
   }
 
-  // Show PWA install prompt
   window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
     const btn = document.createElement("button");
