@@ -1,3 +1,5 @@
+// main.js — corrected favorite class toggle logic
+
 document.addEventListener("DOMContentLoaded", () => {
   const $ = {
     grid: document.getElementById("toolGrid"),
@@ -23,8 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const card = document.createElement("div");
       card.className = "card";
       const isFav = favorites.has(tool.name);
+      const favClass = isFav ? 'favorited' : '';
       card.innerHTML = `
-        <button class="fav-btn ${isFav ? 'favorited' : ''}" onclick="toggleFavorite('${tool.name}', this)">
+        <button class="fav-btn ${favClass}" onclick="toggleFavorite('${tool.name}', this)">
           <span>⭐</span>
         </button>
         <h2>${tool.name}</h2>
@@ -48,8 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateCategoryOptions() {
     const cats = [...new Set(tools.map(t => t.category))];
-    $.category.innerHTML = '<option value="">All Categories</option>' +
-      cats.map(cat => `<option value="${cat}">${cat}</option>`).join("");
+    $.category.innerHTML = '<option value="">All Categories</option>' + cats.map(cat => `<option value="${cat}">${cat}</option>`).join("");
   }
 
   $.search.addEventListener("input", () => displayTools($.search.value, $.category.value));
