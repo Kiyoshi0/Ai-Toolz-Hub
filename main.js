@@ -27,9 +27,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const isFav = favorites.has(tool.name);
       const favClass = isFav ? 'favorited' : '';
       card.innerHTML = `
-        <button class="fav-btn ${favClass}" onclick="toggleFavorite('${tool.name}', this)">
-          <span>⭐</span>
-        </button>
+        <button class="fav-btn ${favClass}" onclick="toggleFavorite('${tool.name}', this)" aria-label="Favorite">
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+  </svg>
+</button>
         <h2>${tool.name}</h2>
         <p>${tool.desc}</p>
         <a href="${tool.link}" target="_blank">Visit →</a>
