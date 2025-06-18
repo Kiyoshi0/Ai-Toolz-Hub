@@ -1,20 +1,20 @@
 {
   "name": "AI Toolz Hub",
   "short_name": "AI Hub",
-  "start_url": ".",
-  "scope": ".",
+  "start_url": "/Ai-Toolz-Hub/",
+  "scope": "/Ai-Toolz-Hub/",
   "display": "standalone",
   "background_color": "#f0f4ff",
   "theme_color": "#a78bfa",
   "lang": "en",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "/Ai-Toolz-Hub/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "icon-512.png",
+      "src": "/Ai-Toolz-Hub/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
