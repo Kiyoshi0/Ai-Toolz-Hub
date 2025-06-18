@@ -19,16 +19,16 @@ body {
   cursor: pointer;
 }
 .fav-btn {
+  color: #aaa;
+  background: none;
+  border: none;
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: none;
-  border: none;
   font-size: 1.2rem;
   cursor: pointer;
-  color: #aaa;
-  transition: transform 0.2s;
 }
+
 .fav-btn.favorited {
   color: gold;
 }
