@@ -1,3 +1,4 @@
+/* styles.css — updated with fav-btn and clickable logo */
 :root {
   --accent: #a78bfa;
   --bg: #ffffff;
@@ -5,23 +6,18 @@
   --gray: #e5e7eb;
   --radius: 1rem;
 }
-
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
   background: var(--bg);
   color: var(--fg);
 }
-
-/* Clickable logo */
 .logo {
   font-weight: 800;
   font-size: 1.2rem;
   color: var(--accent);
   cursor: pointer;
 }
-
-/* Favorite button on cards */
 .fav-btn {
   position: absolute;
   top: 1rem;
@@ -33,7 +29,6 @@ body {
   color: #aaa;
   transition: transform 0.2s;
 }
-
 .fav-btn.favorited {
   color: gold;
 }
