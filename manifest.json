@@ -2,9 +2,10 @@
   "name": "AI Toolz Hub",
   "short_name": "AI Hub",
   "start_url": ".",
+  "scope": ".",
   "display": "standalone",
   "background_color": "#f0f4ff",
-  "theme_color": "#3b82f6",
+  "theme_color": "#a78bfa",
   "lang": "en",
   "icons": [
     {
