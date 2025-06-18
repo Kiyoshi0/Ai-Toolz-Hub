@@ -2,7 +2,7 @@
 
 **Discover 50+ free AI tools for creators, coders, writers, designers, and more.**
 
-🌐 Live site: [https://aitoolz.github.io](https://aitoolz.github.io)
+🌐 Live site: (https://kiyoshi0.github.io/Ai-Toolz-Hub/)
 
 ---
 
